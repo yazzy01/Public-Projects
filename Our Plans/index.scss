@@ -1,0 +1,248 @@
+// ======================================
+// VARIABLES
+// ======================================
+// Colors
+$primary-color: #3498db;
+$secondary-color: #2ecc71;
+$tertiary-color: #e74c3c;
+$text-color: #333;
+$light-gray: #f5f5f5;
+$dark-gray: #777;
+
+// Spacing
+$spacing-unit: 1rem;
+$card-padding: $spacing-unit * 1.5;
+$card-margin: $spacing-unit * 2;
+
+// UI Elements
+$border-radius: 8px;
+$border-width: 1px;
+$border-color: #e0e0e0;
+
+// Typography
+$font-family: 'Arial', sans-serif;
+$font-size-base: 16px;
+$font-size-large: 1.5rem;
+$font-size-xl: 2rem;
+
+// ======================================
+// MIXINS
+// ======================================
+@mixin box-shadow($intensity: 1) {
+    box-shadow: 0 #{2px * $intensity} #{5px * $intensity} rgba(0, 0, 0, #{0.1 * $intensity});
+}
+
+@mixin button-style($bg-color, $text-color: white) {
+    background-color: $bg-color;
+    color: $text-color;
+    border: none;
+    padding: $spacing-unit * 0.75 $spacing-unit * 1.5;
+    border-radius: $border-radius;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    
+    &:hover {
+        background-color: darken($bg-color, 10%);
+        transform: translateY(-2px);
+        @include box-shadow(1.5);
+    }
+    
+    &:active {
+        transform: translateY(1px);
+    }
+}
+
+@mixin flex-container($direction: row, $justify: center, $align: center) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $justify;
+    align-items: $align;
+}
+
+// ======================================
+// PLACEHOLDERS (EXTEND)
+// ======================================
+%card-base {
+    border-radius: $border-radius;
+    padding: $card-padding;
+    margin: $card-margin;
+    background-color: white;
+    @include box-shadow(1);
+    transition: transform 0.3s ease;
+    
+    &:hover {
+        transform: translateY(-5px);
+        @include box-shadow(1.5);
+    }
+}
+
+%list-reset {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+%text-centered {
+    text-align: center;
+}
+
+// ======================================
+// BASE STYLES
+// ======================================
+body {
+    font-family: $font-family;
+    font-size: $font-size-base;
+    color: $text-color;
+    background-color: $light-gray;
+    margin: 0;
+    padding: $spacing-unit * 2;
+    line-height: 1.6;
+}
+
+.container {
+    @include flex-container(row, center, flex-start);
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+// ======================================
+// CARD STYLES
+// ======================================
+.card {
+    @extend %card-base;
+    width: 300px;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    
+    // Header Section
+    &__header {
+        @extend %text-centered;
+        margin-bottom: $spacing-unit * 1.5;
+        padding-bottom: $spacing-unit;
+        border-bottom: $border-width solid $border-color;
+    }
+    
+    &__title {
+        font-size: $font-size-large;
+        margin-top: 0;
+        margin-bottom: $spacing-unit * 0.5;
+    }
+    
+    &__price {
+        font-size: $font-size-xl;
+        font-weight: bold;
+        color: $primary-color;
+        margin: $spacing-unit 0;
+        
+        span {
+            font-size: $font-size-base;
+            font-weight: normal;
+            color: $dark-gray;
+        }
+    }
+    
+    // Body Section
+    &__body {
+        flex-grow: 1;
+    }
+    
+    &__features {
+        @extend %list-reset;
+        
+        li {
+            padding: $spacing-unit * 0.5 0;
+            border-bottom: 1px solid $light-gray;
+            
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+    }
+    
+    // Footer Section
+    &__footer {
+        @extend %text-centered;
+        margin-top: $spacing-unit * 1.5;
+        padding-top: $spacing-unit;
+        border-top: $border-width solid $border-color;
+    }
+    
+    &__button {
+        @include button-style($primary-color);
+        width: 100%;
+    }
+}
+
+// ======================================
+// CARD VARIANTS
+// ======================================
+// Basic Card
+.card--basic {
+    border: $border-width solid $border-color;
+}
+
+// Premium Card
+.card--premium {
+    border: 2px solid $secondary-color;
+    @include box-shadow(2);
+    
+    .card__title {
+        color: $secondary-color;
+    }
+    
+    .card__price {
+        color: $secondary-color;
+    }
+    
+    .card__button {
+        @include button-style($secondary-color);
+    }
+    
+    .card__features {
+        li {
+            &::before {
+                content: "✓ ";
+                color: $secondary-color;
+                font-weight: bold;
+            }
+        }
+    }
+}
+
+// ======================================
+// RESPONSIVE DESIGN
+// ======================================
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .card {
+        width: 100%;
+        max-width: 400px;
+        margin: $spacing-unit;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: $spacing-unit;
+    }
+    
+    .card {
+        min-height: auto;
+        padding: $spacing-unit;
+        
+        &__title {
+            font-size: 1.2rem;
+        }
+        
+        &__price {
+            font-size: 1.5rem;
+        }
+    }
+}

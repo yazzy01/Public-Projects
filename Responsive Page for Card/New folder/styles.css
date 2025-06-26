@@ -1,0 +1,148 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background-color: #f8f9fa;
+}
+
+.container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.content {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.text-content {
+    flex: 1;
+    padding: 20px;
+    min-width: 300px;
+}
+
+.home {
+    display: block;
+    font-size: 48px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+h1 {
+    font-size: 36px;
+    font-weight: normal;
+    color: #333;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.download-btn {
+    background-color: #f54748;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.download-btn:hover {
+    background-color: #e63e3f;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(245, 71, 72, 0.3);
+}
+
+.image-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    min-width: 300px;
+    position: relative;
+}
+
+.phone-img {
+    max-width: 100%;
+    height: auto;
+    z-index: 1;
+}
+
+.image-content:before {
+    content: '';
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    background-color: #f0f4ff;
+    border-radius: 50%;
+    z-index: 0;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .content {
+        flex-direction: column;
+    }
+    
+    .text-content, .image-content {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .text-content {
+        order: 2;
+    }
+    
+    .image-content {
+        order: 1;
+    }
+    
+    .home {
+        font-size: 40px;
+    }
+    
+    h1 {
+        font-size: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .home {
+        font-size: 32px;
+    }
+    
+    h1 {
+        font-size: 24px;
+    }
+    
+    p {
+        font-size: 14px;
+    }
+    
+    .download-btn {
+        padding: 10px 24px;
+        font-size: 14px;
+    }
+} 

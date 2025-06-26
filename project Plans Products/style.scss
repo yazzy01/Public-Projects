@@ -1,0 +1,152 @@
+// Variables
+$primary-color: #3498db;
+$secondary-color: #2ecc71;
+$text-color: #333;
+$light-gray: #f5f5f5;
+$border-radius: 8px;
+$spacing-unit: 1rem;
+$box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+// Mixins
+@mixin box-shadow($intensity: 1) {
+    box-shadow: 0 2px * $intensity 4px * $intensity rgba(0, 0, 0, 0.1 * $intensity);
+}
+
+@mixin button-style($bg-color, $text-color: white) {
+    background-color: $bg-color;
+    color: $text-color;
+    border: none;
+    padding: $spacing-unit * 0.75 $spacing-unit * 1.5;
+    border-radius: $border-radius;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: darken($bg-color, 10%);
+    }
+}
+
+// Placeholder selectors (Extend)
+%card-base {
+    border-radius: $border-radius;
+    padding: $spacing-unit * 1.5;
+    margin: $spacing-unit * 2;
+    background-color: white;
+    @include box-shadow();
+}
+
+%flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+// Base styles
+body {
+    background-color: $light-gray;
+    font-family: Arial, sans-serif;
+    color: $text-color;
+    margin: 0;
+    padding: $spacing-unit * 2;
+}
+
+.container {
+    @extend %flex-center;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+// Card styles
+.card {
+    @extend %card-base;
+    width: 300px;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+
+    &__header {
+        text-align: center;
+        margin-bottom: $spacing-unit * 1.5;
+    }
+
+    &__title {
+        font-size: 1.5rem;
+        margin-bottom: $spacing-unit;
+    }
+
+    &__price {
+        font-size: 2rem;
+        font-weight: bold;
+        color: $primary-color;
+
+        span {
+            font-size: 1rem;
+            color: $text-color;
+        }
+    }
+
+    &__body {
+        flex-grow: 1;
+    }
+
+    &__features {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+            padding: $spacing-unit * 0.5 0;
+            border-bottom: 1px solid $light-gray;
+
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+    }
+
+    &__footer {
+        margin-top: $spacing-unit * 1.5;
+        text-align: center;
+    }
+
+    &__button {
+        @include button-style($primary-color);
+    }
+}
+
+// Card variants
+.card--basic {
+    border: 1px solid $light-gray;
+}
+
+.card--premium {
+    border: 2px solid $secondary-color;
+    @include box-shadow(2);
+
+    .card__title {
+        color: $secondary-color;
+    }
+
+    .card__price {
+        color: $secondary-color;
+    }
+
+    .card__button {
+        @include button-style($secondary-color);
+    }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .card {
+        width: 100%;
+        max-width: 400px;
+        margin: $spacing-unit;
+    }
+}
+

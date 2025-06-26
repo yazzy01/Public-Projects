@@ -1,0 +1,83 @@
+.mothernav {
+  @include flex-between;
+  padding: 15px $container-padding;
+  background-color: $color-white;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  
+  @include respond-to(lg) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.left-group {
+  @include flex;
+  align-items: center;
+}
+
+.icon {
+  width: 80px;
+  height: auto;
+  margin-right: $spacing-xlarge;
+  
+  @include respond-to(sm) {
+    width: 60px;
+    margin-right: $spacing-medium;
+  }
+}
+
+.nav1, .nav2 {
+  @include flex;
+  align-items: center;
+  
+  @include respond-to(sm) {
+    width: 100%;
+  }
+}
+
+.nav1 {
+  margin-right: auto;
+}
+
+.nav1 ul, .nav2 ul {
+  @include flex;
+  
+  @include respond-to(md) {
+    flex-wrap: wrap;
+  }
+  
+  @include respond-to(sm) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.nav1 li, .nav2 li {
+  margin: 0 $spacing-medium;
+  
+  @include respond-to(md) {
+    margin: 5px 10px;
+  }
+  
+  @include respond-to(sm) {
+    margin: 5px 0;
+  }
+}
+
+.nav1 a, .nav2 a {
+  text-decoration: none;
+  color: $color-text;
+  font-weight: 500;
+  
+  &:hover {
+    color: $color-primary;
+  }
+}
+
+.nav2 {
+  @include respond-to(lg) {
+    width: 100%;
+    justify-content: space-between;
+    margin-top: $spacing-medium;
+  }
+} 

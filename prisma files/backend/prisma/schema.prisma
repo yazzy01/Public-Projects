@@ -1,0 +1,773 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "multiSchema", "metrics"]
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+// User Management
+model User {
+  id                String    @id @default(auto()) @map("_id") @db.ObjectId
+  email             String    @unique
+  username          String?   @unique
+  password          String
+  firstName         String?
+  lastName          String?
+  dateOfBirth       DateTime?
+  gender            String?
+  profileImage      String?
+  height            Float?    // in cm
+  weight            Float?    // in kg
+  
+  role              Role      @default(USER)
+  biometricEnabled  Boolean   @default(false)
+  preferredUnits    Units     @default(METRIC)
+  
+  // Health Data
+  goals             Goal[]
+  dietaryPreferences String[]
+  allergies         String[]
+  medicalConditions String[]
+  
+  // Relationships
+  nutritionLogs     NutritionLog[]
+  workoutLogs       WorkoutLog[]
+  sleepLogs         SleepLog[]
+  waterLogs         WaterLog[]
+  bodyMeasurements  BodyMeasurement[]
+  devices           ConnectedDevice[]
+  
+  aiNutritionPlans  AiNutritionPlan[]
+  aiWorkoutPlans    AiWorkoutPlan[]
+  
+  refreshTokens     RefreshToken[]
+  notifications     Notification[]
+  
+  // New relationships
+  paymentMethods    PaymentMethod[]
+  paymentTransactions PaymentTransaction[]
+  savedVideos       SavedWorkoutVideo[]
+  reviews           Review[]
+  
+  // Location data for gym finding
+  location          Location?
+  
+  // Timestamps
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  
+  // Analytics
+  lastLoggedIn      DateTime?
+  loginCount        Int       @default(0)
+  
+  @@map("users")
+}
+
+// New model for user location
+model Location {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @unique @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  latitude  Float
+  longitude Float
+  address   String?
+  city      String?
+  state     String?
+  country   String?
+  zipCode   String?
+  
+  updatedAt DateTime @updatedAt
+  
+  @@map("locations")
+}
+
+model RefreshToken {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  token     String   @unique
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  
+  @@map("refresh_tokens")
+}
+
+// Nutrition Tracking
+model NutritionLog {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String   @db.ObjectId
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  date          DateTime
+  mealType      MealType
+  name          String
+  
+  // Nutrient information
+  calories      Float?
+  protein       Float?   // in grams
+  carbohydrates Float?   // in grams
+  fat           Float?   // in grams
+  fiber         Float?   // in grams
+  sugar         Float?   // in grams
+  sodium        Float?   // in milligrams
+  
+  // Advanced nutrients
+  saturatedFat  Float?   // in grams
+  cholesterol   Float?   // in milligrams
+  potassium     Float?   // in milligrams
+  calcium       Float?   // in milligrams
+  iron          Float?   // in milligrams
+  vitaminA      Float?   // in IU
+  vitaminC      Float?   // in milligrams
+  vitaminD      Float?   // in IU
+  
+  // Food composition
+  foodItems     FoodItem[]
+  
+  // Image analysis
+  foodImage     String?  // URL to food image
+  aiAnalyzed    Boolean  @default(false)
+  
+  // Metadata
+  notes         String?
+  mood          String?
+  hunger        Int?     // Scale 1-10
+  location      String?
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@index([userId, date])
+  @@map("nutrition_logs")
+}
+
+model FoodItem {
+  id               String       @id @default(auto()) @map("_id") @db.ObjectId
+  name             String
+  brand            String?
+  servingSize      Float
+  servingUnit      String
+  
+  // Basic nutrients
+  calories         Float?
+  protein          Float?       // in grams
+  carbohydrates    Float?       // in grams
+  fat              Float?       // in grams
+  
+  nutritionLogId   String       @db.ObjectId
+  nutritionLog     NutritionLog @relation(fields: [nutritionLogId], references: [id], onDelete: Cascade)
+  
+  // Barcode and nutrition database references
+  barcode          String?
+  foodDatabaseId   String?      // Reference to external food database
+  
+  // Timestamps
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  
+  @@map("food_items")
+}
+
+// Fitness Tracking
+model WorkoutLog {
+  id              String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId          String    @db.ObjectId
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  date            DateTime
+  duration        Int       // in minutes
+  
+  workoutType     WorkoutType
+  caloriesBurned  Float?
+  
+  exercises       Exercise[]
+  
+  // Heart rate data
+  avgHeartRate    Int?      // in bpm
+  maxHeartRate    Int?      // in bpm
+  heartRateZones  Json?     // Time spent in different heart rate zones
+  
+  // Advanced training metrics
+  trainingLoad    Float?
+  recoveryScore   Float?
+  
+  // Additional data
+  location        String?   // e.g. "Gym", "Home", "Outdoors"
+  notes           String?
+  mood            String?
+  energyLevel     Int?      // Scale 1-10
+  
+  // Connected to devices/apps
+  sourceDevice    String?   // e.g. "Garmin watch", "Apple Watch"
+  sourceApp       String?   // e.g. "Strava", "Apple Health"
+  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  @@index([userId, date])
+  @@map("workout_logs")
+}
+
+model Exercise {
+  id            String     @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  
+  exerciseType  ExerciseType
+  
+  // For strength exercises
+  sets          Int?
+  reps          Int?
+  weight        Float?     // in kg or lbs depending on user preference
+  
+  // For cardio exercises
+  distance      Float?     // in km or miles depending on user preference
+  duration      Int?       // in minutes
+  pace          Float?     // avg pace
+  
+  // Common fields
+  caloriesBurned Float?
+  notes         String?
+  
+  workoutLogId  String     @db.ObjectId
+  workoutLog    WorkoutLog @relation(fields: [workoutLogId], references: [id], onDelete: Cascade)
+  
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  
+  @@map("exercises")
+}
+
+// Sleep Tracking
+model SleepLog {
+  id                String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String    @db.ObjectId
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  date              DateTime
+  bedtime           DateTime
+  wakeTime          DateTime
+  
+  totalSleepTime    Int       // in minutes
+  deepSleepTime     Int?      // in minutes
+  remSleepTime      Int?      // in minutes
+  lightSleepTime    Int?      // in minutes
+  
+  sleepQuality      Int?      // Scale 1-10
+  
+  // Advanced sleep metrics
+  sleepCycles       Int?
+  awakeningCount    Int?
+  sleepLatency      Int?      // time to fall asleep in minutes
+  
+  // Related factors
+  stressLevel       Int?      // Scale 1-10
+  caffeine          Boolean?
+  alcohol           Boolean?
+  screenTime        Int?      // minutes of screen time before bed
+  
+  // Biometrics during sleep
+  avgHeartRate      Int?      // in bpm
+  minHeartRate      Int?      // in bpm
+  avgRespirationRate Float?    // breaths per minute
+  
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  
+  @@index([userId, date])
+  @@map("sleep_logs")
+}
+
+// Water Tracking
+model WaterLog {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String    @db.ObjectId
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  date          DateTime
+  amount        Float     // in ml or oz depending on user preference
+  waterType     WaterType @default(WATER)
+  
+  createdAt     DateTime  @default(now())
+  
+  @@index([userId, date])
+  @@map("water_logs")
+}
+
+// Body Measurements
+model BodyMeasurement {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String    @db.ObjectId
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  date          DateTime
+  weight        Float?    // in kg or lbs depending on user preference
+  bodyFat       Float?    // percentage
+  muscleMass    Float?    // in kg or lbs
+  boneMass      Float?    // in kg or lbs
+  waterPercentage Float?   // percentage
+  bmi           Float?
+  waist         Float?    // in cm or inches
+  chest         Float?    // in cm or inches
+  hips          Float?    // in cm or inches
+  neck          Float?    // in cm or inches
+  biceps        Float?    // in cm or inches
+  thigh         Float?    // in cm or inches
+  
+  createdAt     DateTime  @default(now())
+  
+  @@index([userId, date])
+  @@map("body_measurements")
+}
+
+// Connected Devices
+model ConnectedDevice {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String    @db.ObjectId
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  type          String    // e.g. "Fitbit", "Apple Watch", "Garmin"
+  deviceId      String    // External device identifier
+  name          String?   // User-friendly name
+  
+  accessToken   String?
+  refreshToken  String?
+  tokenExpiry   DateTime?
+  
+  lastSynced    DateTime?
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  @@map("connected_devices")
+}
+
+// AI Generated Plans
+model AiNutritionPlan {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String    @db.ObjectId
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  title         String
+  goal          String    // e.g. "Weight Loss", "Muscle Gain", "Maintenance"
+  description   String?
+  
+  calorieTarget Int?
+  macros        Json?     // Protein, carbs, fat targets
+  
+  // Meal plan content
+  days          Int       // Number of days in plan
+  mealPlans     Json      // Array of daily meal plans with recipes
+  
+  // Insights and recommendations
+  insights      String?
+  adaptations   Json?     // Adaptations based on preferences and allergies
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  @@map("ai_nutrition_plans")
+}
+
+model AiWorkoutPlan {
+  id                 String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId             String    @db.ObjectId
+  user               User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  title              String
+  goal               String    // e.g. "Strength", "Cardio", "Weight Loss", "Muscle Gain"
+  description        String?
+  
+  experienceLevel    String    // e.g. "Beginner", "Intermediate", "Advanced"
+  duration           Int       // weeks
+  daysPerWeek        Int
+  
+  // Workout plan content
+  workoutPlan        Json      // Array of workout days with exercises
+  
+  // Equipment and notes
+  requiredEquipment  String[]
+  notes              String?
+  
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  
+  @@map("ai_workout_plans")
+}
+
+// Goal Tracking
+model Goal {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String    @db.ObjectId
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  title         String
+  description   String?
+  
+  type          GoalType
+  target        Float     // Target value (e.g. weight in kg, daily calories, etc.)
+  startValue    Float?    // Starting value
+  currentValue  Float?    // Current progress
+  
+  startDate     DateTime
+  targetDate    DateTime?
+  completedDate DateTime?
+  
+  status        String    // e.g. "In Progress", "Completed", "Abandoned"
+  
+  // For recurring goals
+  frequency     String?   // e.g. "Daily", "Weekly", "Monthly"
+  
+  // Check-ins to track progress
+  checkIns      GoalCheckIn[]
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  @@map("goals")
+}
+
+model GoalCheckIn {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  goalId        String    @db.ObjectId
+  goal          Goal      @relation(fields: [goalId], references: [id], onDelete: Cascade)
+  
+  date          DateTime
+  value         Float
+  notes         String?
+  
+  createdAt     DateTime  @default(now())
+  
+  @@map("goal_check_ins")
+}
+
+// Notifications
+model Notification {
+  id            String            @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String            @db.ObjectId
+  user          User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  type          NotificationType
+  title         String
+  message       String
+  
+  isRead        Boolean           @default(false)
+  action        String?           // Deep link or action
+  
+  createdAt     DateTime          @default(now())
+  
+  @@index([userId, isRead])
+  @@map("notifications")
+}
+
+// User roles
+enum Role {
+  USER
+  ADMIN
+  COACH
+}
+
+// Unit preferences
+enum Units {
+  METRIC
+  IMPERIAL
+}
+
+// Nutrition
+enum MealType {
+  BREAKFAST
+  LUNCH
+  DINNER
+  SNACK
+  PRE_WORKOUT
+  POST_WORKOUT
+}
+
+// Fitness
+enum WorkoutType {
+  STRENGTH
+  CARDIO
+  FLEXIBILITY
+  HIIT
+  YOGA
+  PILATES
+  SPORTS
+  OTHER
+}
+
+enum ExerciseType {
+  STRENGTH
+  CARDIO
+  FLEXIBILITY
+  BALANCE
+}
+
+// Water tracking
+enum WaterType {
+  WATER
+  COFFEE
+  TEA
+  JUICE
+  SPORTS_DRINK
+}
+
+// Goal types
+enum GoalType {
+  WEIGHT
+  BODY_FAT
+  CALORIE_INTAKE
+  PROTEIN_INTAKE
+  WATER_INTAKE
+  WORKOUT_FREQUENCY
+  WORKOUT_DURATION
+  STEPS
+  SLEEP_DURATION
+  CUSTOM
+}
+
+// Notification types
+enum NotificationType {
+  GOAL_REMINDER
+  PROGRESS_UPDATE
+  GOAL_ACHIEVED
+  MEAL_REMINDER
+  WORKOUT_REMINDER
+  SLEEP_REMINDER
+  WATER_REMINDER
+  ACHIEVEMENT
+  AI_INSIGHT
+}
+
+// New enums
+enum VideoCategory {
+  STRENGTH_TRAINING
+  CARDIO
+  HIIT
+  YOGA
+  PILATES
+  ZUMBA
+  BELLY_DANCE
+  ORIENTAL_DANCE
+  COMBAT
+  HYBRID
+  WEIGHT_LOSS
+  MUSCLE_BUILDING
+  FLEXIBILITY
+  OTHER
+}
+
+enum DifficultyLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+  ALL_LEVELS
+}
+
+enum TargetGender {
+  MALE
+  FEMALE
+  ALL
+}
+
+enum PaymentMethodType {
+  CREDIT_CARD
+  PAYPAL
+  BANK_TRANSFER
+  APPLE_PAY
+  GOOGLE_PAY
+  CRYPTO
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+  CANCELED
+}
+
+enum TransactionType {
+  ONE_TIME
+  SUBSCRIPTION
+  REFUND
+}
+
+// New model for Workout Videos
+model WorkoutVideo {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  title         String
+  description   String
+  videoUrl      String
+  thumbnailUrl  String
+  duration      Int      // in seconds
+  
+  // Video categorization
+  category      VideoCategory
+  workoutType   WorkoutType
+  difficulty    DifficultyLevel
+  
+  // Video details
+  instructor    String
+  targetGender  TargetGender?
+  equipment     String[]
+  caloriesBurn  Int?     // estimated calories burned
+  muscleGroups  String[]
+  tags          String[]
+  
+  // Engagement metrics
+  viewCount     Int      @default(0)
+  rating        Float    @default(0)
+  
+  // Related models
+  savedBy       SavedWorkoutVideo[]
+  reviews       Review[]
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@map("workout_videos")
+}
+
+model SavedWorkoutVideo {
+  id            String       @id @default(auto()) @map("_id") @db.ObjectId
+  
+  userId        String       @db.ObjectId
+  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  videoId       String       @db.ObjectId
+  video         WorkoutVideo @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  
+  savedAt       DateTime     @default(now())
+  
+  @@unique([userId, videoId])
+  @@map("saved_workout_videos")
+}
+
+// Model for Gym Locations
+model GymLocation {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  description   String?
+  
+  // Location
+  latitude      Float
+  longitude     Float
+  address       String
+  city          String
+  state         String?
+  country       String
+  zipCode       String?
+  
+  // Features
+  amenities     String[]
+  classes       String[]
+  operatingHours Json?    // Store as JSON object with days and hours
+  membershipOptions Json?
+  
+  // Media
+  photos        String[]
+  website       String?
+  phone         String?
+  email         String?
+  
+  // Reviews
+  reviews       Review[]
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@map("gym_locations")
+}
+
+// Payment models
+model PaymentMethod {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String   @db.ObjectId
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Payment method type
+  type          PaymentMethodType
+  
+  // For credit card (encrypted/tokenized)
+  cardLast4     String?
+  cardBrand     String?
+  expiryMonth   Int?
+  expiryYear    Int?
+  
+  // For PayPal, etc.
+  accountEmail  String?
+  
+  // External payment provider reference
+  providerToken String?
+  
+  isDefault     Boolean  @default(false)
+  isVerified    Boolean  @default(false)
+  
+  transactions  PaymentTransaction[]
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@map("payment_methods")
+}
+
+model PaymentTransaction {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  
+  userId        String   @db.ObjectId
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  paymentMethodId String? @db.ObjectId
+  paymentMethod PaymentMethod? @relation(fields: [paymentMethodId], references: [id])
+  
+  // Transaction details
+  amount        Float
+  currency      String   @default("USD")
+  status        PaymentStatus
+  description   String?
+  
+  // Subscription or one-time purchase
+  type          TransactionType
+  
+  // External payment provider data
+  externalId    String?
+  providerName  String?
+  
+  // For subscriptions
+  subscriptionId String?
+  subscriptionPeriod String?
+  
+  createdAt     DateTime @default(now())
+  
+  @@map("payment_transactions")
+}
+
+// Reviews model for videos and gyms
+model Review {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  
+  userId        String   @db.ObjectId
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Content
+  rating        Float    // 1-5
+  comment       String?
+  
+  // Target - either a video or gym location
+  workoutVideoId String?  @db.ObjectId
+  workoutVideo  WorkoutVideo? @relation(fields: [workoutVideoId], references: [id], onDelete: Cascade)
+  
+  gymLocationId String?  @db.ObjectId
+  gymLocation   GymLocation? @relation(fields: [gymLocationId], references: [id], onDelete: Cascade)
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@map("reviews")
+} 

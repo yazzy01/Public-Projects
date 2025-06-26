@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <rect width="200" height="200" fill="#c1272d"/>
+  <path d="M100,40 L123.5,116.5 L55,68.5 h90 L76.5,116.5 z" fill="none" stroke="#006233" stroke-width="5"/>
+  <text x="55" y="160" fill="#fff" font-family="Arial" font-size="20" font-weight="bold">MOROCCO</text>
+</svg> 

@@ -1,0 +1,14 @@
+.btn {
+  @include button($color-primary, $color-white);
+}
+
+.noir {
+  background-color: $color-primary;
+  color: $color-white;
+}
+
+.green {
+  background-color: $color-secondary;
+  color: $color-white;
+  margin-bottom: $spacing-small;
+} 

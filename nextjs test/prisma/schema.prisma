@@ -1,0 +1,90 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id             String        @id @default(cuid())
+  email          String        @unique
+  name           String?
+  password       String
+  image          String?
+  role           Role          @default(USER)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  organizationId String?
+  organization   Organization? @relation(fields: [organizationId], references: [id])
+  ownedOrgs      Organization[] @relation("OrgOwner")
+  projects       Project[]
+  contents       Content[]
+  comments       Comment[]
+}
+
+model Organization {
+  id          String    @id @default(cuid())
+  name        String
+  logo        String?
+  ownerId     String
+  owner       User      @relation("OrgOwner", fields: [ownerId], references: [id])
+  members     User[]
+  projects    Project[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Project {
+  id             String        @id @default(cuid())
+  name           String
+  description    String?
+  userId         String
+  user           User          @relation(fields: [userId], references: [id])
+  organizationId String?
+  organization   Organization? @relation(fields: [organizationId], references: [id])
+  contents       Content[]
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+model Content {
+  id          String    @id @default(cuid())
+  title       String
+  body        String
+  status      Status    @default(DRAFT)
+  projectId   String
+  project     Project   @relation(fields: [projectId], references: [id])
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  comments    Comment[]
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  text      String
+  contentId String
+  content   Content  @relation(fields: [contentId], references: [id])
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Status {
+  DRAFT
+  REVIEW
+  PUBLISHED
+} 

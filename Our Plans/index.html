@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Cards with Tailwind</title>
+    <link href="./style.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen py-12 px-4">
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-3xl font-bold text-center mb-12">Our Plans</h1>
+        <div class="flex flex-wrap justify-center gap-8">
+            <!-- Basic Card -->
+            <div class="bg-white rounded-lg shadow-lg p-8 flex flex-col w-full max-w-sm">
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold text-gray-800">Basic Plan</h2>
+                    <p class="mt-4 text-4xl font-bold text-blue-600">$9.99<span class="text-base font-normal text-gray-600">/month</span></p>
+                </div>
+                <ul class="mt-8 space-y-4 flex-grow">
+                    <li class="flex items-center">
+                        <svg class="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        Feature 1
+                    </li>
+                    <li class="flex items-center">
+                        <svg class="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        Feature 2
+                    </li>
+                    <li class="flex items-center">
+                        <svg class="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        Feature 3
+                    </li>
+                </ul>
+                <button class="mt-8 w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">
+                    Get Started
+                </button>
+            </div>
+
+            <!-- Premium Card -->
+            <div class="bg-white rounded-lg shadow-lg p-8 flex flex-col w-full max-w-sm border-2 border-green-500">
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold text-green-600">Premium Plan</h2>
+                    <p class="mt-4 text-4xl font-bold text-green-600">$19.99<span class="text-base font-normal text-gray-600">/month</span></p>
+                </div>
+                <ul class="mt-8 space-y-4 flex-grow">
+                    <li class="flex items-center">
+                        <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        Premium Feature 1
+                    </li>
+                    <li class="flex items-center">
+                        <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        Premium Feature 2
+                    </li>
+                    <li class="flex items-center">
+                        <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        Premium Feature 3
+                    </li>
+                    <li class="flex items-center">
+                        <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        Premium Feature 4
+                    </li>
+                </ul>
+                <button class="mt-8 w-full bg-green-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
+                    Get Started
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

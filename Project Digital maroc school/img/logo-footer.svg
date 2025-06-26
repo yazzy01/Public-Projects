@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="60" viewBox="0 0 200 60">
+  <style>
+    .text { fill: #fff; font-family: 'Arial', sans-serif; font-weight: bold; }
+    .highlight { fill: #FF5A5F; }
+    .tagline { fill: #ddd; font-family: 'Arial', sans-serif; font-size: 10px; }
+  </style>
+  <text x="10" y="30" class="text" font-size="20">Digital</text>
+  <text x="75" y="30" class="highlight text" font-size="20">Morocco</text>
+  <text x="10" y="50" class="text" font-size="20">School</text>
+  <text x="10" y="60" class="tagline">Learning for the future</text>
+</svg> 

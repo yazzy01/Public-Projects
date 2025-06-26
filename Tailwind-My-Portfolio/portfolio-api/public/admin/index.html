@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio Admin Dashboard</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+    }
+    .container {
+      display: flex;
+      min-height: 100vh;
+    }
+    .sidebar {
+      width: 250px;
+      background-color: #2c3e50;
+      color: white;
+      padding: 1rem 0;
+    }
+    .sidebar-header {
+      padding: 0 1.5rem 1.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .sidebar-header h2 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+    .sidebar-menu {
+      list-style: none;
+      padding: 0;
+      margin: 1.5rem 0;
+    }
+    .sidebar-menu li {
+      padding: 0.75rem 1.5rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .sidebar-menu li:hover, .sidebar-menu li.active {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    .sidebar-menu li a {
+      color: white;
+      text-decoration: none;
+      display: block;
+    }
+    .main-content {
+      flex: 1;
+      padding: 2rem;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+    .header h1 {
+      margin: 0;
+      color: #333;
+    }
+    .logout-btn {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .logout-btn:hover {
+      background-color: #c0392b;
+    }
+    .card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .card h2 {
+      margin-top: 0;
+      color: #333;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+    .btn {
+      background-color: #4a6cf7;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      text-decoration: none;
+      display: inline-block;
+      margin-right: 0.5rem;
+    }
+    .btn:hover {
+      background-color: #3a5be8;
+    }
+    .btn-success {
+      background-color: #2ecc71;
+    }
+    .btn-success:hover {
+      background-color: #27ae60;
+    }
+    .btn-danger {
+      background-color: #e74c3c;
+    }
+    .btn-danger:hover {
+      background-color: #c0392b;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table th, table td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+    table th {
+      color: #333;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h2>Portfolio Admin</h2>
+      </div>
+      <ul class="sidebar-menu">
+        <li class="active"><a href="#" data-section="dashboard">Dashboard</a></li>
+        <li><a href="#" data-section="profile">Profile</a></li>
+        <li><a href="#" data-section="projects">Projects</a></li>
+        <li><a href="#" data-section="skills">Skills</a></li>
+        <li><a href="#" data-section="messages">Messages</a></li>
+      </ul>
+    </div>
+    
+    <div class="main-content">
+      <div class="header">
+        <h1>Dashboard</h1>
+        <button id="logout-btn" class="logout-btn">Logout</button>
+      </div>
+      
+      <div id="dashboard-section" class="section">
+        <div class="card">
+          <h2>Overview</h2>
+          <div id="dashboard-content">
+            <p>Loading dashboard data...</p>
+          </div>
+        </div>
+      </div>
+      
+      <div id="profile-section" class="section" style="display: none;">
+        <div class="card">
+          <h2>Profile Information</h2>
+          <div id="profile-content">
+            <p>Loading profile data...</p>
+          </div>
+        </div>
+      </div>
+      
+      <div id="projects-section" class="section" style="display: none;">
+        <div class="card">
+          <h2>Projects</h2>
+          <button class="btn btn-success" id="add-project-btn">Add New Project</button>
+          <div id="projects-content">
+            <p>Loading projects...</p>
+          </div>
+        </div>
+      </div>
+      
+      <div id="skills-section" class="section" style="display: none;">
+        <div class="card">
+          <h2>Skills</h2>
+          <button class="btn btn-success" id="add-skill-btn">Add New Skill</button>
+          <div id="skills-content">
+            <p>Loading skills...</p>
+          </div>
+        </div>
+      </div>
+      
+      <div id="messages-section" class="section" style="display: none;">
+        <div class="card">
+          <h2>Contact Messages</h2>
+          <div id="messages-content">
+            <p>Loading messages...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Check if user is authenticated
+    const token = localStorage.getItem('token');
+    if (!token) {
+      window.location.href = '/login.html';
+    }
+
+    // Handle navigation
+    document.querySelectorAll('.sidebar-menu li a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Remove active class from all links
+        document.querySelectorAll('.sidebar-menu li').forEach(item => {
+          item.classList.remove('active');
+        });
+        
+        // Add active class to clicked link
+        this.parentElement.classList.add('active');
+        
+        // Hide all sections
+        document.querySelectorAll('.section').forEach(section => {
+          section.style.display = 'none';
+        });
+        
+        // Show selected section
+        const sectionId = this.getAttribute('data-section') + '-section';
+        document.getElementById(sectionId).style.display = 'block';
+        
+        // Update header title
+        document.querySelector('.header h1').textContent = this.textContent;
+        
+        // Load content based on section
+        loadSectionContent(this.getAttribute('data-section'));
+      });
+    });
+
+    // Handle logout
+    document.getElementById('logout-btn').addEventListener('click', async () => {
+      try {
+        await fetch('/api/auth/logout', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        
+        localStorage.removeItem('token');
+        window.location.href = '/login.html';
+      } catch (error) {
+        console.error('Logout failed:', error);
+      }
+    });
+
+    // Load section content
+    function loadSectionContent(section) {
+      switch (section) {
+        case 'dashboard':
+          loadDashboardContent();
+          break;
+        case 'profile':
+          loadProfileContent();
+          break;
+        case 'projects':
+          loadProjectsContent();
+          break;
+        case 'skills':
+          loadSkillsContent();
+          break;
+        case 'messages':
+          loadMessagesContent();
+          break;
+      }
+    }
+
+    // Load dashboard content
+    async function loadDashboardContent() {
+      const dashboardContent = document.getElementById('dashboard-content');
+      
+      try {
+        const [projectsRes, skillsRes, messagesRes] = await Promise.all([
+          fetch('/api/projects', { headers: { 'Authorization': `Bearer ${token}` } }),
+          fetch('/api/skills', { headers: { 'Authorization': `Bearer ${token}` } }),
+          fetch('/api/contacts', { headers: { 'Authorization': `Bearer ${token}` } })
+        ]);
+        
+        const [projects, skills, messages] = await Promise.all([
+          projectsRes.json(),
+          skillsRes.json(),
+          messagesRes.json()
+        ]);
+        
+        dashboardContent.innerHTML = `
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+            <div style="background-color: #3498db; color: white; padding: 1.5rem; border-radius: 8px; text-align: center;">
+              <h3>Projects</h3>
+              <p style="font-size: 2rem; margin: 0.5rem 0;">${projects.length}</p>
+            </div>
+            <div style="background-color: #2ecc71; color: white; padding: 1.5rem; border-radius: 8px; text-align: center;">
+              <h3>Skills</h3>
+              <p style="font-size: 2rem; margin: 0.5rem 0;">${skills.length}</p>
+            </div>
+            <div style="background-color: #e74c3c; color: white; padding: 1.5rem; border-radius: 8px; text-align: center;">
+              <h3>Messages</h3>
+              <p style="font-size: 2rem; margin: 0.5rem 0;">${messages.length}</p>
+            </div>
+          </div>
+          <h3 style="margin-top: 2rem;">Recent Messages</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Subject</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${messages.slice(0, 5).map(message => `
+                <tr>
+                  <td>${message.name}</td>
+                  <td>${message.email}</td>
+                  <td>${message.subject}</td>
+                  <td>${new Date(message.createdAt).toLocaleDateString()}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        `;
+      } catch (error) {
+        dashboardContent.innerHTML = `<p>Error loading dashboard data: ${error.message}</p>`;
+      }
+    }
+
+    // Load profile content
+    async function loadProfileContent() {
+      const profileContent = document.getElementById('profile-content');
+      
+      try {
+        const response = await fetch('/api/users', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        
+        const profile = await response.json();
+        
+        profileContent.innerHTML = `
+          <form id="profile-form">
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem;">Name</label>
+              <input type="text" value="${profile.name}" name="name" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+            </div>
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem;">About</label>
+              <textarea name="about" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; min-height: 100px;">${profile.about}</textarea>
+            </div>
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem;">Status</label>
+              <input type="text" value="${profile.status}" name="status" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+            </div>
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem;">Email</label>
+              <input type="email" value="${profile.email}" name="email" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+            </div>
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem;">Phone</label>
+              <input type="text" value="${profile.phone || ''}" name="phone" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+            </div>
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem;">GitHub Link</label>
+              <input type="url" value="${profile.githubLink || ''}" name="githubLink" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+            </div>
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem;">LinkedIn Link</label>
+              <input type="url" value="${profile.linkedinLink || ''}" name="linkedinLink" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+            </div>
+            <button type="submit" class="btn">Update Profile</button>
+          </form>
+        `;
+        
+        // Handle profile form submission
+        document.getElementById('profile-form').addEventListener('submit', async (e) => {
+          e.preventDefault();
+          
+          const formData = new FormData(e.target);
+          const profileData = Object.fromEntries(formData.entries());
+          
+          try {
+            const response = await fetch('/api/users', {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+              },
+              body: JSON.stringify(profileData)
+            });
+            
+            if (!response.ok) {
+              throw new Error('Failed to update profile');
+            }
+            
+            alert('Profile updated successfully!');
+          } catch (error) {
+            alert(`Error updating profile: ${error.message}`);
+          }
+        });
+      } catch (error) {
+        profileContent.innerHTML = `<p>Error loading profile data: ${error.message}</p>`;
+      }
+    }
+
+    // Load projects content
+    async function loadProjectsContent() {
+      const projectsContent = document.getElementById('projects-content');
+      
+      try {
+        const response = await fetch('/api/projects', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        
+        const projects = await response.json();
+        
+        if (projects.length === 0) {
+          projectsContent.innerHTML = '<p>No projects found. Add your first project!</p>';
+        } else {
+          projectsContent.innerHTML = `
+            <table>
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Technologies</th>
+                  <th>Featured</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${projects.map(project => `
+                  <tr>
+                    <td>${project.title}</td>
+                    <td>${project.technologies.join(', ')}</td>
+                    <td>${project.featured ? 'Yes' : 'No'}</td>
+                    <td>
+                      <button class="btn" onclick="editProject('${project._id}')">Edit</button>
+                      <button class="btn btn-danger" onclick="deleteProject('${project._id}')">Delete</button>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          `;
+        }
+      } catch (error) {
+        projectsContent.innerHTML = `<p>Error loading projects: ${error.message}</p>`;
+      }
+    }
+
+    // Load skills content
+    async function loadSkillsContent() {
+      const skillsContent = document.getElementById('skills-content');
+      
+      try {
+        const response = await fetch('/api/skills', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        
+        const skills = await response.json();
+        
+        if (skills.length === 0) {
+          skillsContent.innerHTML = '<p>No skills found. Add your first skill!</p>';
+        } else {
+          skillsContent.innerHTML = `
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Category</th>
+                  <th>Proficiency</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${skills.map(skill => `
+                  <tr>
+                    <td>${skill.name}</td>
+                    <td>${skill.category}</td>
+                    <td>${skill.proficiency}/5</td>
+                    <td>
+                      <button class="btn" onclick="editSkill('${skill._id}')">Edit</button>
+                      <button class="btn btn-danger" onclick="deleteSkill('${skill._id}')">Delete</button>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          `;
+        }
+      } catch (error) {
+        skillsContent.innerHTML = `<p>Error loading skills: ${error.message}</p>`;
+      }
+    }
+
+    // Load messages content
+    async function loadMessagesContent() {
+      const messagesContent = document.getElementById('messages-content');
+      
+      try {
+        const response = await fetch('/api/contacts', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        
+        const messages = await response.json();
+        
+        if (messages.length === 0) {
+          messagesContent.innerHTML = '<p>No messages found.</p>';
+        } else {
+          messagesContent.innerHTML = `
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Subject</th>
+                  <th>Date</th>
+                  <th>Read</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${messages.map(message => `
+                  <tr>
+                    <td>${message.name}</td>
+                    <td>${message.email}</td>
+                    <td>${message.subject}</td>
+                    <td>${new Date(message.createdAt).toLocaleDateString()}</td>
+                    <td>${message.read ? 'Yes' : 'No'}</td>
+                    <td>
+                      <button class="btn" onclick="viewMessage('${message._id}')">View</button>
+                      <button class="btn btn-danger" onclick="deleteMessage('${message._id}')">Delete</button>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          `;
+        }
+      } catch (error) {
+        messagesContent.innerHTML = `<p>Error loading messages: ${error.message}</p>`;
+      }
+    }
+
+    // Load initial dashboard content
+    loadDashboardContent();
+  </script>
+</body>
+</html> 

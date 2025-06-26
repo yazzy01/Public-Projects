@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <rect width="400" height="300" fill="#f8f9fa"/>
+  
+  <!-- Person sitting in chair -->
+  <rect x="180" y="160" width="80" height="60" rx="10" fill="#ddd"/>
+  <rect x="190" y="220" width="15" height="30" fill="#ddd"/>
+  <rect x="235" y="220" width="15" height="30" fill="#ddd"/>
+  
+  <!-- Person -->
+  <circle cx="220" cy="120" r="25" fill="#FF5A5F"/>
+  <rect x="210" y="145" width="20" height="40" fill="#FF5A5F"/>
+  
+  <!-- Arms -->
+  <rect x="165" y="155" width="45" height="15" fill="#FF5A5F" transform="rotate(-20, 165, 155)"/>
+  <rect x="230" y="155" width="45" height="15" fill="#FF5A5F" transform="rotate(20, 230, 155)"/>
+  
+  <!-- Laptop -->
+  <rect x="180" y="160" width="80" height="8" fill="#333"/>
+  <rect x="180" y="168" width="80" height="40" fill="#444" rx="5"/>
+  <rect x="185" y="173" width="70" height="30" fill="#fff"/>
+  
+  <!-- Message bubbles -->
+  <rect x="120" y="80" width="60" height="30" rx="15" fill="#FF5A5F"/>
+  <polygon points="130,110 140,100 150,110" fill="#FF5A5F"/>
+  
+  <rect x="280" y="70" width="50" height="25" rx="12" fill="#ddd"/>
+  <polygon points="290,95 300,85 310,95" fill="#ddd"/>
+  
+  <rect x="300" y="120" width="40" height="20" rx="10" fill="#ddd"/>
+  <polygon points="310,140 320,130 330,140" fill="#ddd"/>
+  
+  <text x="200" y="270" font-size="16" font-family="Arial" text-anchor="middle">Contact Us</text>
+</svg> 

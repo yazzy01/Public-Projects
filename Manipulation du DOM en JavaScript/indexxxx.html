@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemples DOM JavaScript</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Manipulation du DOM en JavaScript</h1>
+
+    <!-- 1. Accéder aux éléments du DOM -->
+    <section id="section-selection">
+        <h2>1. Accéder aux éléments du DOM</h2>
+        <p id="para-id">Paragraphe avec un ID</p>
+        <p class="para-class">Paragraphe avec une classe</p>
+        <p class="para-class">Autre paragraphe avec la même classe</p>
+        <span>Un élément span</span>
+        <div data-test="selection-test">Élément avec attribut data</div>
+        <button id="btn-selection">Tester les sélecteurs</button>
+        <div id="selection-result"></div>
+    </section>
+
+    <!-- 2. Modifier le contenu et les attributs -->
+    <section id="section-content">
+        <h2>2. Modifier le contenu et les attributs</h2>
+        <p id="content-text">Texte original</p>
+        <div id="content-html">Contenu <em>HTML</em> original</div>
+        <img id="content-img" src="WhatsApp Image 2025-03-22 at 11.18.55.jpeg" alt="Image placeholder" width="150">
+        <div>
+            <button id="btn-text">Changer le texte</button>
+            <button id="btn-html">Changer le HTML</button>
+            <button id="btn-attr">Changer l'attribut</button>
+            <button id="btn-class">Changer la classe</button>
+        </div>
+    </section>
+
+    <!-- 3. Modifier le style -->
+    <section id="section-style">
+        <h2>3. Modifier le style</h2>
+        <div id="style-box" class="box">Style Box</div>
+        <div>
+            <button id="btn-style">Style Inline</button>
+            <button id="btn-class-add">Ajouter Classe</button>
+            <button id="btn-class-remove">Supprimer Classe</button>
+            <button id="btn-class-toggle">Toggle Classe</button>
+        </div>
+    </section>
+
+    <!-- 4. Créer, insérer et supprimer des éléments -->
+    <section id="section-elements">
+        <h2>4. Créer, insérer et supprimer des éléments</h2>
+        <div id="elements-container">
+            <p>Contenu existant</p>
+        </div>
+        <div>
+            <button id="btn-create">Créer élément</button>
+            <button id="btn-insert">Insérer avant</button>
+            <button id="btn-remove">Supprimer élément</button>
+            <button id="btn-replace">Remplacer élément</button>
+        </div>
+    </section>
+
+    <!-- 5. Gérer les événements -->
+    <section id="section-events">
+        <h2>5. Gérer les événements</h2>
+        <div id="event-box" class="box">Événements</div>
+        <input type="text" id="event-input" placeholder="Tapez quelque chose...">
+        <div id="event-log">Log des événements:</div>
+    </section>
+
+    <!-- 6. Formulaires et validations -->
+    <section id="section-forms">
+        <h2>6. Formulaires et validations</h2>
+        <form id="validation-form">
+            <div>
+                <label for="username">Nom d'utilisateur (min 3 caractères):</label>
+                <input type="text" id="username" name="username">
+                <span class="error" id="username-error"></span>
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email">
+                <span class="error" id="email-error"></span>
+            </div>
+            <div>
+                <label for="password">Mot de passe (min 6 caractères):</label>
+                <input type="password" id="password" name="password">
+                <span class="error" id="password-error"></span>
+            </div>
+            <button type="submit">Soumettre</button>
+        </form>
+        <div id="form-result"></div>
+    </section>
+
+    <!-- 7. Manipuler des listes dynamiques -->
+    <section id="section-lists">
+        <h2>7. Manipuler des listes dynamiques</h2>
+        <div>
+            <input type="text" id="list-input" placeholder="Nouvel élément">
+            <button id="btn-add-item">Ajouter</button>
+        </div>
+        <ul id="dynamic-list"></ul>
+    </section>
+
+    <script src="test.js"></script>
+</body>
+</html>

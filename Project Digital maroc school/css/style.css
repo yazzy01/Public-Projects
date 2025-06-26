@@ -1,0 +1,450 @@
+/* General styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+h1, h2, h3 {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+h2 {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+p {
+    margin-bottom: 15px;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+ul {
+    list-style: none;
+}
+
+section {
+    padding: 80px 0;
+}
+
+/* Buttons */
+.btn-primary {
+    display: inline-block;
+    background-color: #FF5A5F;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #ff4146;
+}
+
+.btn-secondary {
+    display: inline-block;
+    background-color: #fff;
+    color: #FF5A5F;
+    border: 2px solid #FF5A5F;
+    padding: 10px 25px;
+    border-radius: 5px;
+    font-weight: 600;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-secondary:hover {
+    background-color: #FF5A5F;
+    color: white;
+}
+
+/* Header */
+header {
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 15px 0;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo img {
+    height: 50px;
+}
+
+nav ul {
+    display: flex;
+}
+
+nav ul li {
+    margin-left: 25px;
+}
+
+nav ul li a {
+    font-weight: 500;
+}
+
+nav ul li a:hover {
+    color: #FF5A5F;
+}
+
+/* Hero Section */
+.hero {
+    background-color: #f8f9fa;
+    padding: 100px 0;
+}
+
+.hero .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.hero-content {
+    flex: 1;
+    padding-right: 30px;
+}
+
+.hero-image {
+    flex: 1;
+}
+
+/* About Section */
+.about-content {
+    display: flex;
+    align-items: center;
+}
+
+.about-text {
+    flex: 2;
+    padding-right: 30px;
+}
+
+.about-image {
+    flex: 1;
+    text-align: center;
+}
+
+.about-image img {
+    max-width: 250px;
+}
+
+/* Why Us Section */
+.why-us {
+    background-color: #f8f9fa;
+}
+
+.advantages {
+    display: flex;
+    align-items: center;
+}
+
+.advantage-text {
+    flex: 1;
+    padding-right: 30px;
+}
+
+.advantage-text ul li {
+    margin-bottom: 10px;
+}
+
+.advantage-text ul li i {
+    color: #FF5A5F;
+    margin-right: 10px;
+}
+
+.advantage-image {
+    flex: 1;
+}
+
+/* Online Courses Section */
+.online-courses {
+    text-align: center;
+}
+
+.online-course-box {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    overflow: hidden;
+    max-width: 800px;
+    margin: 0 auto;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.course-details {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    flex-wrap: wrap;
+}
+
+.detail-item {
+    text-align: center;
+    padding: 15px;
+}
+
+.detail-item p strong {
+    display: block;
+    font-size: 1.5rem;
+    color: #FF5A5F;
+}
+
+/* CTA Section */
+.cta {
+    background-color: #FF5A5F;
+    color: white;
+    text-align: center;
+    padding: 60px 0;
+}
+
+.cta h2 {
+    color: white;
+}
+
+.cta .btn-primary {
+    background-color: white;
+    color: #FF5A5F;
+}
+
+.cta .btn-primary:hover {
+    background-color: #f8f9fa;
+}
+
+/* Courses Section */
+.course-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.course-card {
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.course-card:hover {
+    transform: translateY(-10px);
+}
+
+.course-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.course-card h3, .course-card p, .course-card a {
+    padding: 0 20px;
+}
+
+.course-card h3 {
+    margin-top: 20px;
+}
+
+.course-card a {
+    display: inline-block;
+    margin: 20px;
+}
+
+/* Contact Section */
+.contact {
+    background-color: #f8f9fa;
+}
+
+.contact .container {
+    display: flex;
+    align-items: center;
+}
+
+.contact-form {
+    flex: 1;
+    padding-right: 30px;
+}
+
+.contact-image {
+    flex: 1;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group input, .form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-family: inherit;
+}
+
+.form-group textarea {
+    height: 150px;
+    resize: vertical;
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: white;
+    padding: 60px 0 20px;
+}
+
+.footer-logo {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.footer-logo img {
+    height: 50px;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 40px;
+}
+
+.footer-col h3 {
+    color: white;
+    margin-bottom: 20px;
+}
+
+.footer-col ul li {
+    margin-bottom: 10px;
+}
+
+.footer-col ul li a {
+    color: #ddd;
+}
+
+.footer-col ul li a:hover {
+    color: white;
+}
+
+.social-links {
+    display: flex;
+}
+
+.social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    margin-right: 10px;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.social-links a:hover {
+    background-color: #FF5A5F;
+}
+
+.footer-bottom {
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 20px;
+    font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .hero .container, .about-content, .advantages, .contact .container {
+        flex-direction: column;
+    }
+    
+    .hero-content, .about-text, .advantage-text, .contact-form {
+        padding-right: 0;
+        margin-bottom: 30px;
+    }
+    
+    .hero-image, .about-image, .advantage-image, .contact-image {
+        margin-top: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+    
+    h2 {
+        font-size: 1.8rem;
+    }
+    
+    .course-cards {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+}
+
+@media (max-width: 576px) {
+    header .container {
+        flex-direction: column;
+    }
+    
+    nav ul {
+        margin-top: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    nav ul li {
+        margin: 5px 10px;
+    }
+    
+    .course-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-links {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .footer-col {
+        margin-bottom: 30px;
+    }
+    
+    .social-links {
+        justify-content: center;
+    }
+} 

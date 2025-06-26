@@ -1,0 +1,122 @@
+.card {
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 2rem;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+body {
+  background-color: #f5f5f5;
+  font-family: Arial, sans-serif;
+  color: #333;
+  margin: 0;
+  padding: 2rem;
+}
+
+.container {
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.card {
+  width: 300px;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+.card__header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.card__title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+.card__price {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #3498db;
+}
+.card__price span {
+  font-size: 1rem;
+  color: #333;
+}
+.card__body {
+  flex-grow: 1;
+}
+.card__features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.card__features li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f5f5f5;
+}
+.card__features li:last-child {
+  border-bottom: none;
+}
+.card__footer {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+.card__button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.card__button:hover {
+  background-color: rgb(33.1380753138, 125.1882845188, 186.8619246862);
+}
+
+.card--basic {
+  border: 1px solid #f5f5f5;
+}
+
+.card--premium {
+  border: 2px solid #2ecc71;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.card--premium .card__title {
+  color: #2ecc71;
+}
+.card--premium .card__price {
+  color: #2ecc71;
+}
+.card--premium .card__button {
+  background-color: #2ecc71;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.card--premium .card__button:hover {
+  background-color: rgb(36.616, 162.384, 89.948);
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+  .card {
+    width: 100%;
+    max-width: 400px;
+    margin: 1rem;
+  }
+}
+
+/*# sourceMappingURL=style.css.map */

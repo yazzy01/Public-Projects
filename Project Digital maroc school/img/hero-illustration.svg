@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <rect width="400" height="300" fill="#f8f9fa"/>
+  <!-- Desk -->
+  <rect x="50" y="200" width="300" height="20" fill="#ddd"/>
+  <rect x="70" y="220" width="20" height="60" fill="#ccc"/>
+  <rect x="310" y="220" width="20" height="60" fill="#ccc"/>
+  
+  <!-- Computer -->
+  <rect x="120" y="120" width="160" height="100" rx="5" fill="#333"/>
+  <rect x="130" y="130" width="140" height="80" fill="#fff"/>
+  <rect x="180" y="200" width="40" height="10" fill="#333"/>
+  <rect x="170" y="210" width="60" height="5" fill="#333"/>
+  
+  <!-- Person -->
+  <circle cx="200" cy="90" r="20" fill="#FF5A5F"/>
+  <rect x="190" y="110" width="20" height="30" fill="#FF5A5F"/>
+  <rect x="170" y="125" width="20" height="40" fill="#FF5A5F" transform="rotate(30, 170, 125)"/>
+  <rect x="210" y="125" width="20" height="40" fill="#FF5A5F" transform="rotate(-30, 210, 125)"/>
+  
+  <!-- Code on screen -->
+  <line x1="140" y1="140" x2="200" y2="140" stroke="#333" stroke-width="2"/>
+  <line x1="140" y1="150" x2="230" y2="150" stroke="#333" stroke-width="2"/>
+  <line x1="140" y1="160" x2="210" y2="160" stroke="#333" stroke-width="2"/>
+  <line x1="140" y1="170" x2="190" y2="170" stroke="#333" stroke-width="2"/>
+  <line x1="140" y1="180" x2="220" y2="180" stroke="#333" stroke-width="2"/>
+  <line x1="140" y1="190" x2="180" y2="190" stroke="#333" stroke-width="2"/>
+  
+  <text x="200" y="270" font-size="16" font-family="Arial" text-anchor="middle" fill="#333">Learn to code with us!</text>
+</svg> 

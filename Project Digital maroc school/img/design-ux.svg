@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="250" height="180" viewBox="0 0 250 180">
+  <rect width="250" height="180" fill="#f8f9fa"/>
+  <rect x="60" y="30" width="130" height="80" rx="10" fill="#fff" stroke="#FF5A5F" stroke-width="2"/>
+  <circle cx="90" cy="60" r="15" fill="#FF5A5F"/>
+  <rect x="115" y="50" width="50" height="10" rx="5" fill="#ddd"/>
+  <rect x="115" y="70" width="30" height="10" rx="5" fill="#ddd"/>
+  <rect x="70" y="100" width="110" height="10" rx="5" fill="#ddd"/>
+  <rect x="70" y="120" width="80" height="10" rx="5" fill="#ddd"/>
+  <text x="125" y="160" font-size="16" font-family="Arial" text-anchor="middle">UX/UI Design</text>
+</svg> 

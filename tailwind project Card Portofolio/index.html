@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Tailwind CSS</title>
+    <link href="./style.css" rel="stylesheet">
+</head>
+<!-- Let's break down each Tailwind class used: -->
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <!-- 
+    bg-gray-100: Light gray background
+    min-h-screen: Minimum height of 100vh
+    flex: Display flex
+    items-center: Align items vertically
+    justify-center: Center horizontally
+    p-4: Padding of 1rem (16px)
+    -->
+
+    <!-- Main container with margin -->
+    <div class="mt-8 p-8 bg-white rounded-lg shadow-lg max-w-sm w-full hover:shadow-xl transition-shadow">
+        <!-- 
+        bg-white: White background
+        rounded-lg: Large border radius
+        shadow-lg: Large shadow
+        p-6: Padding of 1.5rem
+        max-w-sm: Maximum width small
+        w-full: Full width
+        hover:shadow-xl: Larger shadow on hover
+        transition-shadow: Smooth transition for shadow
+        -->
+
+        <div class="text-center">
+            <!-- text-center: Center text alignment -->
+            
+            <!-- Avatar section with margin -->
+            <div class="w-24 h-24 bg-blue-500 rounded-full mx-auto mb-6 flex items-center justify-center">
+                <!-- 
+                w-24: Width of 6rem
+                h-24: Height of 6rem
+                bg-blue-500: Blue background
+                rounded-full: Circular shape
+                mx-auto: Center horizontally
+                mb-4: Bottom margin of 1rem
+                -->
+                <span class="text-white text-2xl font-bold">JD</span>
+                <!-- 
+                text-white: White text
+                text-2xl: Large text size
+                font-bold: Bold font weight
+                -->
+            </div>
+
+            <!-- Text content with margins -->
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">John Doe</h2>
+            <!-- 
+            text-xl: Extra large text
+            font-semibold: Semi-bold font
+            text-gray-800: Dark gray text
+            mb-2: Bottom margin of 0.5rem
+            -->
+
+            <p class="text-gray-600 mb-6">Web Developer</p>
+            <!-- 
+            text-gray-600: Medium gray text
+            mb-4: Bottom margin of 1rem
+            -->
+
+            <!-- Stats section with margin and padding -->
+            <div class="mt-6 mb-6 flex justify-around">
+                <div class="text-center px-4">
+                    <p class="font-bold text-xl">50+</p>
+                    <p class="text-gray-600">Projects</p>
+                </div>
+                <div class="text-center px-4">
+                    <p class="font-bold text-xl">89%</p>
+                    <p class="text-gray-600">Success Rate</p>
+                </div>
+            </div>
+
+            <!-- Button with padding -->
+            <button class="w-full bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors mt-4">
+                <!-- 
+                bg-blue-500: Blue background
+                text-white: White text
+                px-4: Horizontal padding of 1rem
+                py-2: Vertical padding of 0.5rem
+                rounded: Small border radius
+                hover:bg-blue-600: Darker blue on hover
+                transition-colors: Smooth color transition
+                -->
+                Connect
+            </button>
+        </div>
+    </div>
+</body>
+</html>

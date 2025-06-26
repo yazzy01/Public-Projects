@@ -1,0 +1,16 @@
+{
+  "name": "tailwind-portfolio",
+  "version": "1.0.0",
+  "description": "Katie Reed Portfolio built with Tailwind CSS",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx tailwindcss -i ./src/styles.css -o ./dist/output.css",
+    "watch": "npx tailwindcss -i ./src/styles.css -o ./dist/output.css --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tailwindcss": "^3.4.1"
+  }
+}
